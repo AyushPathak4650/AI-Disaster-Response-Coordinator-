@@ -30,7 +30,8 @@ load_dotenv()
 
 # ─── Config ───────────────────────────────────────────────────────────────────
 
-IMAGE_NAME   = os.getenv("LOCAL_IMAGE_NAME")
+# IMAGE_NAME   = os.getenv("LOCAL_IMAGE_NAME")
+ENV_URL   = os.getenv("ENV_URL")
 API_KEY      = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
 MODEL_NAME   = os.getenv("MODEL_NAME",   "Qwen/Qwen2.5-72B-Instruct")
@@ -184,7 +185,7 @@ async def run_task(
 
     log_start(task=task_name, env=BENCHMARK, model=MODEL_NAME)
 
-    env = await DisasterEnv.from_docker_image(IMAGE_NAME)
+    env = DisasterEnv(base_url=ENV_URL)
 
     try:
         # Reset with the right difficulty (seed=42 for reproducibility)
